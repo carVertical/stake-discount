@@ -108,7 +108,7 @@ function setDiscount(uint256 _discountNr,uint256 _newDiscount)onlyOwner{
 function setThreshold(uint256 _thresholdNr,uint256 _newThreshold)public onlyOwner{
   require(_thresholdNr>= 1 && _thresholdNr<= 10);
 
-  _thresholdNr -= 1;
+  _thresholdNr = _thresholdNr.sub(1);
   discountThreshold[_thresholdNr] = _newThreshold;
 }
 

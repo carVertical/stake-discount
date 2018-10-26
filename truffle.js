@@ -3,8 +3,7 @@ module.exports = {
     development: {
       host: "localhost",
       port: 7545,
-      network_id: "*", // Match any network id
-      from: "0x5a501cbCbb006ACee6F7ffef34D14ce19Ee92fec"
+      network_id: "*" // Match any network id
     },
     rinkeby: {
       host: "localhost", // TODO change host to CarVertical node server

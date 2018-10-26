@@ -8,17 +8,19 @@ import "./SafeMath.sol";
 
 contract Staking is Ownable{
 
-  IERC20 cVToken;
-  uint256[10] discounts;
-  uint256[10] discountThreshold;
+IERC20 public cVToken;
+uint256[10] public discounts;
+uint256[10] public discountThreshold;
+uint256 public stakingTime;
 
   using SafeMath for uint256;
   using SafeERC20 for IERC20;
 
 constructor(
-  IERC20 _cVToken)public{
+  IERC20 _cVToken, uint256 _stakingTime)public{
     require(_cVToken != address(0));
     cVToken = _cVToken;
+    stakingTime = _stakingTime;
   }
 
 struct StakeInfo{
@@ -76,10 +78,9 @@ function discountOf(address staker)public view returns(uint256){
 }
 
 function stake(address staker, uint256 amount) onlyOwner{
-   uint256 oneMonth = 100; // Change to actual month after testing
 
-   if(StakeTable[staker].stakeAmount == 0){
-  StakeTable[staker].unstakeTime = oneMonth.add(now);
+  if(StakeTable[staker].stakeAmount == 0){
+  StakeTable[staker].unstakeTime = stakingTime.add(now);
   StakeTable[staker].stakeAmount = amount;
   }
   else{ //FFR discuss second staking
@@ -110,6 +111,10 @@ function setThreshold(uint256 _thresholdNr,uint256 _newThreshold)public onlyOwne
 
   _thresholdNr = _thresholdNr.sub(1);
   discountThreshold[_thresholdNr] = _newThreshold;
+}
+
+function getAddress()returns(address){
+  return address(this);
 }
 
 }

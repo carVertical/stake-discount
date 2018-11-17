@@ -22,6 +22,7 @@ constructor(
   uint256 _minThreshold,
   uint256 _maxThreshold)public{
     require(_cVToken != address(0));
+    require(_minThreshold < _maxThreshold);
     cVToken = _cVToken;
     stakingTime = _stakingTime;
     minThreshold = _minThreshold; //in wei

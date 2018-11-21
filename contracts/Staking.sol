@@ -59,7 +59,7 @@ function discountOf(address staker)public view returns(uint256){ //Change and re
   return discounts[discountIndex];
 }
 
-function stake(uint256 amount){
+function stake(uint256 amount) public {
 
   address staker = msg.sender;
 
@@ -74,7 +74,7 @@ function stake(uint256 amount){
   }
 }
 
-function unstake(){
+function unstake() public{
 address staker = msg.sender;
 
 require(StakeTable[staker].unstakeTime <= now);
@@ -86,7 +86,7 @@ StakeTable[staker].stakeAmount = 0;
 StakeTable[staker].unstakeTime = 0;
 }
 
-function setDiscounts(uint256 _minDiscount,uint256 _maxDiscount)onlyOwner{
+function setDiscounts(uint256 _minDiscount,uint256 _maxDiscount) public onlyOwner{
   require(_minDiscount > 0);
   require(_maxDiscount < 100);
   require(_minDiscount < _maxDiscount);
@@ -109,11 +109,11 @@ function setThresholds(uint256 _minThreshold ,uint256 _maxThreshold)public onlyO
   maxThreshold = _maxThreshold;
 }
 
-function setStakingTime(uint256 _stakingTime) onlyOwner{
+function setStakingTime(uint256 _stakingTime)public onlyOwner{
   stakingTime = _stakingTime;
 }
 
-function getAddress()returns(address){
+function getAddress()public view returns(address){
   return address(this);
 }
 

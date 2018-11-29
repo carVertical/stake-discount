@@ -5,7 +5,6 @@ import "./IERC20.sol";
 import "./Ownable.sol";
 import "./SafeMath.sol";
 
-//Set max and min discount and make it increase monotonically
 contract Staking is Ownable{
 
 IERC20 public cVToken;

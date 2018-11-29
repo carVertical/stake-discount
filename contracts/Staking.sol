@@ -1,4 +1,4 @@
-gitpragma solidity ^0.4.24;
+pragma solidity ^0.4.24;
 
 import "./ERC20.sol";
 import "./IERC20.sol";
@@ -12,7 +12,7 @@ IERC20 public cVToken;
 uint256 public stakingTime; //In seconds
 uint256 public minThreshold; //In wei
 uint256 public maxThreshold; //In wei
-uint256 public []discounts; //Stored in promiles (E.g 1% = 10, 10% = 100, 100% = 1000)
+uint256[] public discounts; //Stored in promiles (E.g 1% = 10, 10% = 100, 100% = 1000)
                             //Hence minimal possible discount is 0.1%
 
   using SafeMath for uint256;
@@ -22,18 +22,15 @@ constructor(
   uint256 _stakingTime,
   uint256 _minThreshold,
   uint256 _maxThreshold,
-  uint256 _discounts[])public{
+  uint256[] _discounts)public{
     require(_cVToken != address(0));
     require(_minThreshold < _maxThreshold);
     cVToken = _cVToken;
     stakingTime = _stakingTime;
-    setDiscounts(_minThreshold, _maxThreshold, _discounts[]);
+    setDiscounts(_minThreshold, _maxThreshold, _discounts);
   }
 
-event DiscountsChanged(
-  uint256 _newMinThreshold,
-  uint256 _newMaxThreshold,
-  uint256 _newDiscountArray)
+event DiscountsChanged();
 
 event Staked(
   address who,
@@ -107,11 +104,9 @@ StakeTable[staker].stakeAmount = 0;
 StakeTable[staker].unstakeTime = 0;
 }
 
-function setDiscounts(uint256 _minThreshold, uint256 _maxThreshold, uint256 _discounts[]) public onlyOwner{
+function setDiscounts(uint256 _minThreshold, uint256 _maxThreshold, uint256[] _discounts) public onlyOwner{
   require(_minThreshold > 0);
   require(_minThreshold < _maxThreshold);
-
-  require(_minThreshold != minThreshold || _maxThreshold != maxThreshold || _discounts != discounts);
 
   require(_discounts.length > 0);
   require(_discounts[0] > 0);
@@ -125,13 +120,13 @@ function setDiscounts(uint256 _minThreshold, uint256 _maxThreshold, uint256 _dis
   maxThreshold = _maxThreshold;
   discounts = _discounts;
 
-  emit DiscountsChanged(_minThreshold, _maxThreshold, _discounts[]);
+  emit DiscountsChanged();
 }
 
 function setStakingTime(uint256 _stakingTime)public onlyOwner{
   require(_stakingTime > 0);
   stakingTime = _stakingTime;
-  emit StakingTimeChanged(_stakingTime)
+  emit StakingTimeChanged(_stakingTime);
 }
 
 function getAddress()public view returns(address){

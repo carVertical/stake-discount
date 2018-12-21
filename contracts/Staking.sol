@@ -133,4 +133,14 @@ function getAddress()public view returns(address){
   return address(this);
 }
 
+function timeLeft()public view returns(uint256){
+  address sender = msg.sender;
+  uint256 unstakingTime = StakeTable[sender].unstakeTime;
+  uint256 currentTime = now;
+
+  if(unstakingTime < now) return 0;
+
+  return unstakingTime.sub(currentTime);
+}
+
 }
